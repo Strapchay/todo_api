@@ -39,9 +39,9 @@ else:
     )
 
 # Application definition
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = ["http://0.0.0.0:5173", "http://localhost:5173"]
+CORS_ORIGIN_WHITELIST = ["http://0.0.0.0:5173", "http://localhost:5173", "http://0.0.0.0:9090"]
 CORS_ORIGIN_WHITELIST.extend(
     filter(
         None,
@@ -49,7 +49,7 @@ CORS_ORIGIN_WHITELIST.extend(
     )
 )
 
-CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0:5173", "http://localhost:5173"]
+CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0:5173", "http://localhost:5173", "http://0.0.0.0:9090"]
 CSRF_TRUSTED_ORIGINS.extend(
     filter(
         None,
@@ -57,7 +57,7 @@ CSRF_TRUSTED_ORIGINS.extend(
     )
 )
 
-CSRF_ALLOWED_ORIGINS = ["http://0.0.0.0:5173", "http://localhost:5173"]
+CSRF_ALLOWED_ORIGINS = ["http://0.0.0.0:5173", "http://localhost:5173", "http://0.0.0.0:9090"]
 CSRF_ALLOWED_ORIGINS.extend(
     filter(
         None,
