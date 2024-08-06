@@ -2,6 +2,7 @@
 Views for Todo
 """
 
+from user.authentication import ExpiringTokenAuthentication
 from drf_spectacular.utils import (
     extend_schema,
     extend_schema_view,
@@ -9,7 +10,6 @@ from drf_spectacular.utils import (
     OpenApiResponse,
 )
 from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -187,9 +187,9 @@ from .serializers import TodoSerializer, TaskSerializer
 class TodoViewSet(
     BatchRouteMixin,
     BatchCreateRouteMixin,
+    BatchDeleteRouteMixin,
     BatchUpdateRouteMixin,
     BatchUpdateOrderingRouteMixin,
-    BatchDeleteRouteMixin,
     viewsets.ModelViewSet,
 ):
     """
@@ -198,7 +198,7 @@ class TodoViewSet(
 
     serializer_class = TodoSerializer
     queryset = Todo.objects.all()
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [ExpiringTokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
@@ -213,7 +213,7 @@ class TodoViewSet(
             if ids:
                 return self.queryset.filter(user=self.request.user, id__in=ids)
 
-            return self.queryset.filter(user=self.request.user).order_by("-id")
+            return self.queryset.filter(user=self.request.user).order_by("-ordering")
 
     def perform_destory(self, serializer):
         """
@@ -460,7 +460,7 @@ class TaskViewSet(
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
     permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [ExpiringTokenAuthentication]
     http_method_names = ["get", "post", "patch", "delete"]
 
     def perform_create(self, serializer):
