@@ -1,6 +1,7 @@
 """
 Serializers for the User API view
 """
+
 import uuid
 
 from django.contrib.auth import get_user_model, authenticate
@@ -196,11 +197,16 @@ class ResetPasswordConfirmSerializer(PasswordResetConfirmSerializer):
             self.user = get_user_model()._default_manager.get(pk=uid)
         except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
             raise exceptions.ValidationError({"uid": ["Invalid value"]})
-
-        if self.attrs["new_password1"] != self.attrs["new_password2"]:
+        if attrs["new_password1"] != attrs["new_password2"]:
             raise exceptions.ValidationError({"password": ["Password Does Not Match"]})
 
         if not default_token_generator.check_token(self.user, attrs["token"]):
             raise exceptions.ValidationError({"token": ["Invalid Token Value"]})
+
+        self.set_password_form = self.set_password_form_class(
+            user=self.user, data=attrs
+        )
+        if not self.set_password_form.is_valid():
+            raise serializers.ValidationError(self.set_password_form.errors)
 
         return attrs

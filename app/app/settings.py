@@ -41,7 +41,7 @@ else:
 # Application definition
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = ["http://0.0.0.0:5173", "http://localhost:5173", "http://0.0.0.0:9090","http://localhost:1234"]
+CORS_ORIGIN_WHITELIST = ["http://0.0.0.0:5173", "http://localhost:5173","http://localhost:1234", "http://0.0.0.0:9090", "http://todo.localhost:5173","http://localhost:9090", "http://127.0.0.1"]
 CORS_ORIGIN_WHITELIST.extend(
     filter(
         None,
@@ -49,7 +49,7 @@ CORS_ORIGIN_WHITELIST.extend(
     )
 )
 
-CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0:5173", "http://localhost:5173", "http://0.0.0.0:9090","http://localhost:1234"]
+CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0:5173", "http://localhost:5173", "http://todo.localhost:5173","http://localhost:1234", "http://0.0.0.0:9090","http://localhost:9090", "http://127.0.0.1"]
 CSRF_TRUSTED_ORIGINS.extend(
     filter(
         None,
@@ -57,15 +57,15 @@ CSRF_TRUSTED_ORIGINS.extend(
     )
 )
 
-CSRF_ALLOWED_ORIGINS = ["http://0.0.0.0:5173", "http://localhost:5173", "http://0.0.0.0:9090", "http://localhost:1234"]
+CSRF_ALLOWED_ORIGINS = ["http://0.0.0.0:5173", "http://localhost:5173", "http://0.0.0.0:9090","http://localhost:9090","http://localhost:1234", "http://todo.localhost:5173", "http://127.0.0.1"]
 CSRF_ALLOWED_ORIGINS.extend(
     filter(
         None,
         os.environ.get("ALLOWED_HOSTS", "").split(","),
     )
 )
-
-CORS_ALLOW_HEADERS = ["X-Custom-Header", "Authorization", "Content-Type"]
+CORS_ALLOW_METHODS = ['DELETE','GET', 'POST', 'PUT', 'PATCH',  'OPTIONS',]
+CORS_ALLOW_HEADERS = ["X-Custom-Header", "Authorization", "Content-Type", "Access-Control-Allow-Origin", "origin","accept"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",

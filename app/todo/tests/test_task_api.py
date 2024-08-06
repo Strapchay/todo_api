@@ -295,7 +295,6 @@ class PrivateTaskApiTest(TestCase):
             ]
         }
         res = self.client.patch(TASK_BATCH_UPDATE_ORDERING_URL, payload, format="json")
-
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
         tasks = Task.objects.filter(todo=self.todo).order_by("id")
