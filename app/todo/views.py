@@ -13,6 +13,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.db.models import Case, When
 from todo.serializers import TodoSerializer, TaskSerializer
 from core.models import Todo, Task
 from .mixins import (
@@ -211,7 +212,9 @@ class TodoViewSet(
     def get_queryset(self, ids=None):  #
         if self.request.user.is_authenticated:
             if ids:
-                return self.queryset.filter(user=self.request.user, id__in=ids)
+                queryset = self.queryset.filter(user=self.request.user, id__in=ids)
+                preserved_order = Case(*[When(id=id, then=pos) for pos, id in enumerate(ids)])
+                return queryset.order_by(preserved_order)
 
             return self.queryset.filter(user=self.request.user).order_by("-ordering")
 
@@ -478,11 +481,12 @@ class TaskViewSet(
         """
         if self.request.user.is_authenticated:
             if ids:
-                return self.queryset.filter(
+                queryset = self.queryset.filter(
                     todo__user=self.request.user, id__in=ids
-                ).order_by("id")
-
-            return self.queryset.filter(todo__user=self.request.user).order_by("id")
+                )
+                preserved_order = Case(*[When(id=id, then=pos) for pos, id in enumerate(ids)])
+                return queryset.order_by(preserved_order)
+            return self.queryset.filter(todo__user=self.request.user).order_by("ordering")
 
     def view_name(self):
         return "task"

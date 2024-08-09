@@ -27,13 +27,17 @@ class BatchOrderingUpdateSerializer(
         """
         Update Model Orderings
         """
-
+        print("the validated data", validated_data)
         ordering_list = [obj.pop("ordering", None) for obj in validated_data]
+
+        print("the ordering list val", ordering_list)
 
         obj_result = []
 
+        print("the instance val", instance)
         for i, instance_obj in enumerate(instance):
-            instance_obj.ordering = ordering_list[i]
+            setattr(instance_obj, "ordering", ordering_list[i])
+            # instance_obj.ordering = ordering_list[i]
             obj_result.append(instance_obj)
 
         try:
