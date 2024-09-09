@@ -176,7 +176,6 @@ class BatchUpdateOrderingRouteMixin:  # (BatchRouteMixin):
                 view_name=self.view_name(),
             )
             serializer.is_valid(raise_exception=True)
-            # print("the ordering list", ordering_list)
             self.perform_update(serializer)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
@@ -246,7 +245,6 @@ class BatchDeleteRouteMixin:
     def batch_delete(self, request, *args, **kwargs):
         try:
             ids = self.validate_delete_ids(request.data["delete_list"])
-            print("the deel ids", ids)
 
             queryset = self.filter_queryset(self.get_queryset(ids=ids))
             queryset.delete()

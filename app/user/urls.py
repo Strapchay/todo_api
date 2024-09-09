@@ -21,12 +21,12 @@ urlpatterns = [
         name="update_info",
     ),
     re_path(
-        "password-reset/",
+        "password_reset/",
         views.ResetUserPasswordView.as_view(),
         name="password_reset",
     ),
     re_path(
-        "password-reset-confirm/",
+        "password_reset_confirm/",
         views.ConfirmResetUserPasswordView.as_view(uid="uidb64", token="token"),
         name="password_reset_confirm",
     ),

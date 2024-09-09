@@ -482,7 +482,7 @@ class PrivateTodoApiTest(TestCase):
         res = self.client.patch(TODO_BATCH_UPDATE_ORDERING_URL, payload, format="json")
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
-        todos = models.Todo.objects.filter(user=user)
+        todos = models.Todo.objects.filter(user=user).order_by("id")
         todo1.refresh_from_db()
         serializer = TodoSerializer(todos, many=True)
         self.assertEqual(todo1.ordering, payload["ordering_list"][0]["ordering"])

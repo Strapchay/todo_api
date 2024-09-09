@@ -41,7 +41,7 @@ else:
 # Application definition
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = [os.environ.get("CORS_CSRF_URL_1", "https://example.com")]
+CORS_ORIGIN_WHITELIST = []
 CORS_ORIGIN_WHITELIST.extend(
     filter(
         None,
@@ -49,7 +49,7 @@ CORS_ORIGIN_WHITELIST.extend(
     )
 )
 
-CSRF_TRUSTED_ORIGINS = [os.environ.get("CORS_CSRF_URL_1", "https://example.com")]
+CSRF_TRUSTED_ORIGINS = []
 CSRF_TRUSTED_ORIGINS.extend(
     filter(
         None,
@@ -57,7 +57,7 @@ CSRF_TRUSTED_ORIGINS.extend(
     )
 )
 
-CSRF_ALLOWED_ORIGINS = [os.environ.get("CORS_CSRF_URL_1", "https://example.com")]
+CSRF_ALLOWED_ORIGINS = []
 CSRF_ALLOWED_ORIGINS.extend(
     filter(
         None,

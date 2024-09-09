@@ -56,21 +56,17 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           ALLOWED_HOSTS: ${{ secrets.HOST_DNS }}
           DB_PORT: ${{ secrets.DB_PORT }}
-          APP_DOMAIN: ${{ secrets.APP_DOMAIN }}
-          VIRTUAL_HOST: ${{ secrets.DOMAIN_NAME}}
-          VOLUME: ${{ secrets.VOLUME }}
           EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
           EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
           EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
           EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
           EMAIL_USE_SSL: ${{ secrets.EMAIL_USE_SSL }}
           EMAIL_USE_TLS: ${{ secrets.EMAIL_USE_TLS }}
-          CORS_CSRF_URL_1: ${{ secrets.CORS_CSRF_URL_1 }}
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: DB_NAME,DB_USER,DB_PASS,SECRET_KEY,ALLOWED_HOSTS,DB_PORT,APP_DOMAIN,VIRTUAL_HOST,VOLUME,EMAIL_HOST_USER,EMAIL_HOST_PASSWORD,EMAIL_HOST,EMAIL_PORT,EMAIL_USE_SSL,EMAIL_USE_TLS,CORS_CSRF_URL_1
+          envs: DB_NAME,DB_USER,DB_PASS,SECRET_KEY,ALLOWED_HOSTS,DB_PORT,EMAIL_HOST_USER,EMAIL_HOST_PASSWORD,EMAIL_HOST,EMAIL_PORT,EMAIL_USE_SSL,EMAIL_USE_TLS
           script_stop: true
           script: |
             tar -xvf ~/deploy.tar
@@ -82,14 +78,11 @@ jobs:
             echo DB_PORT=$DB_PORT >> .env
             echo SECRET_KEY=$SECRET_KEY >> .env
             echo ALLOWED_HOSTS=$ALLOWED_HOSTS >> .env
-            echo VIRTUAL_HOST=$VIRTUAL_HOST >> .env
-            echo VOLUME=$VOLUME >> .env
             echo EMAIL_HOST_USER=$EMAIL_HOST_USER >> .env
             echo EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD >> .env
             echo EMAIL_HOST=$EMAIL_HOST >> .env
             echo EMAIL_PORT=$EMAIL_PORT >> .env
             echo EMAIL_USE_SSL=$EMAIL_USE_SSL >> .env
             echo EMAIL_USE_TLS=$EMAIL_USE_TLS >> .env
-            echo CORS_CSRF_URL_1=$CORS_CSRF_URL_1 >> .env
             docker-compose -f ./docker-compose-build.yml build --no-cache
             docker-compose -f ./docker-compose-build.yml up -d
