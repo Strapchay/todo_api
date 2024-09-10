@@ -31,9 +31,9 @@ jobs:
         env:
           dest: "${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:/home/${{ secrets.USERNAME }}"
         run: |
-          mkdir ../build
-          rsync -av --progress --exclude='.git' --exclude='.github' --exclude='.vscode' ./ ../build
-          tar -cvf deploy.tar ../build/
+          mkdir ../todo_build
+          rsync -av --progress --exclude='.git' --exclude='.github' --exclude='.vscode' ./ ../todo_build
+          tar -cvf deploy.tar ../todo_build/
           echo "${{ secrets.EC2_SSH_KEY}}" > deploy_key
           chmod 600 ./deploy_key
           rsync -chrlvzi --delete \
@@ -72,7 +72,7 @@ jobs:
           script: |
             tar -xvf ~/deploy.tar
             rm ~/deploy.tar
-            cd ~/build
+            cd ~/todo_build
             echo DB_NAME=$DB_NAME >> .env
             echo DB_USER=$DB_USER >> .env
             echo DB_PASS=$DB_PASS >> .env
@@ -86,5 +86,5 @@ jobs:
             echo EMAIL_USE_SSL=$EMAIL_USE_SSL >> .env
             echo EMAIL_USE_TLS=$EMAIL_USE_TLS >> .env
             echo APP_DOMAIN=$APP_DOMAIN >> .env
-            docker compose -f ./docker-compose-build.yml build --no-cache
-            docker compose -f ./docker-compose-build.yml up -d
+            sudo docker compose -f ./docker-compose-build.yml todo_build --no-cache
+            sudo docker compose -f ./docker-compose-build.yml up -d
