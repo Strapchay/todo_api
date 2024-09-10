@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Test
-        run: docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
+        run: docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
 
   deploy:
     name: Deploy App
@@ -86,5 +86,5 @@ jobs:
             echo EMAIL_USE_SSL=$EMAIL_USE_SSL >> .env
             echo EMAIL_USE_TLS=$EMAIL_USE_TLS >> .env
             echo APP_DOMAIN=$APP_DOMAIN >> .env
-            docker-compose -f ./docker-compose-build.yml build --no-cache
-            docker-compose -f ./docker-compose-build.yml up -d
+            docker compose -f ./docker-compose-build.yml build --no-cache
+            docker compose -f ./docker-compose-build.yml up -d
