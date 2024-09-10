@@ -86,5 +86,5 @@ jobs:
             echo EMAIL_USE_SSL=$EMAIL_USE_SSL >> .env
             echo EMAIL_USE_TLS=$EMAIL_USE_TLS >> .env
             echo APP_DOMAIN=$APP_DOMAIN >> .env
-            sudo docker compose -f ./docker-compose-build.yml todo_build --no-cache
+            sudo docker compose -f ./docker-compose-build.yml build --no-cache
             sudo docker compose -f ./docker-compose-build.yml up -d
