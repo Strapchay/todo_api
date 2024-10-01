@@ -32,6 +32,7 @@ jobs:
           dest: "${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:/home/${{ secrets.USERNAME }}"
         run: |
           mkdir ../todo_build
+          sudo apt install rsync -y
           rsync -av --progress --exclude='.git' --exclude='.github' --exclude='.vscode' ./ ../todo_build
           tar -cvf deploy.tar ../todo_build/
           echo "${{ secrets.EC2_SSH_KEY}}" > deploy_key
