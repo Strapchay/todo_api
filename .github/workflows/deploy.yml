@@ -37,7 +37,7 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY}}" > deploy_key
           chmod 600 ./deploy_key
           rsync -chrlvzi --delete \
-            -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no' \
+            -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no -vvv' \
             --include "deploy.tar" \
             --exclude '*'\
             ./ ${{env.dest}}
