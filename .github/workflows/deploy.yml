@@ -36,8 +36,9 @@ jobs:
           rsync -av --progress --exclude='.git' --exclude='.github' --exclude='.vscode' ./ ../todo_build
           tar -cvf deploy.tar ../todo_build/
           echo "${{ secrets.EC2_SSH_KEY}}" > deploy_key
+          echo "${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:/home/${{ secrets.USERNAME }}"
           chmod 600 ./deploy_key
-          rsync -chrlvzi --delete \
+          sudo rsync -chrlvzi --delete \
             -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no -vvv' \
             --include "deploy.tar" \
             --exclude '*'\
