@@ -35,7 +35,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
     networks:
-      - net
+      - web
       - backend
 
     depends_on:
@@ -64,6 +64,6 @@ volumes:
   static:
 
 networks:
-  net:
+  web:
     external: true
   backend:
