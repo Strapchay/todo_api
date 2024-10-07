@@ -9,30 +9,32 @@ COPY ./scripts /scripts
 
 ARG DEV=false
 RUN \
- python -m venv /py && \
+    python -m venv /py && \
     /py/bin/python -m pip install --upgrade pip && \
     apk add --update --no-cache postgresql-client jpeg-dev python3-dev pcre-dev && \
     apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev  musl-dev zlib zlib-dev linux-headers && \
+    build-base postgresql-dev  musl-dev zlib zlib-dev linux-headers && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ] ; \
-        then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
+    then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     rm -rf /tmp && \
     apk del .tmp-build-deps && \
     adduser \
-        --disabled-password \
-        --no-create-home \
-        django-user && \
+    --disabled-password \
+    --no-create-home \
+    django-user && \
     mkdir -p /vol/web/media && \
-    mkdir -p /vol/web/static 
+    mkdir -p /vol/web/static
 
 COPY ./app /app
 
 RUN chown -R django-user:django-user /vol && \
     chown -R django-user:django-user /app && \
+    chown -R django-user:django-user /var && \
     chmod -R 755 /vol && \
     chmod -R 755 /app && \
+    chmod -R 755 /var && \
     chmod -R +x /scripts && \
     chown django-user:django-user /scripts/run.sh && \
     chmod +x /scripts/run.sh
